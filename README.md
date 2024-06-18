@@ -1,6 +1,6 @@
 # ENIGMA Protocols for Imputation and Genetic Associations of Diffusion Tensor Imaging Metrics
 
-Anyone is welcome to use these protocols for their projects! If you use the protocols on this site for projects outside of ENIGMA, please include a  reference to the ENIGMA main page (http://enigma.ini.usc.edu/) so that your readers and reviewers know about it as well. 
+Anyone is welcome to use these protocols for their projects! If you use the protocols on this site for projects outside of ENIGMA, please include a  reference to the ENIGMA main page (http://enigma.ini.usc.edu/) so that your readers and reviewers know about it, as well. 
 
 ### ENIGMA-DTI GWAS
 **GWAS Meta-Analysis of Diffusion Tensor Imaging (DTI) Metric ROIs**
