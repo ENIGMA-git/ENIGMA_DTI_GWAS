@@ -356,17 +356,9 @@ Now we start R by typing `R`
 library(calibrate)
 #If you don’t have calibrate package, install it using
 #install.packages("calibrate")
-```
-
-`mds.cluster = read.csv("`<span style="font-family:'consolas';color: red;background-color:rgb(220,220,220)">DATAFILE</span>`_QC2_HM3b37mds2R.mds.csv", header=T);`
-
-```r
+mds.cluster = read.csv("DATAFILE_QC2_HM3b37mds2R.mds.csv", header=T);`
 #first we create an additional column holding the respective ancestry labels
-```
-
-`mds.cluster$POP=rep("`<span style="font-family:'consolas';color: red;background-color:rgb(220,220,220)">DATASETNAME</span>`",length(mds.cluster$C1));`
-
-```r
+mds.cluster$POP=rep("DATASETNAME",length(mds.cluster$C1));`
 mds.cluster$POP[which(mds.cluster$FID == "CEU")] <- "CEU";
 mds.cluster$POP[which(mds.cluster$FID == "CHB")] <- "CHB";
 mds.cluster$POP[which(mds.cluster$FID == "YRI")] <- "YRI";
@@ -392,21 +384,15 @@ colors[which(mds.cluster$POP == "GIH")] <- "black";
 colors[which(mds.cluster$POP == "ASW")] <- "darkolivegreen";
 colors[which(mds.cluster$POP == "LWK")] <- "magenta";
 colors[which(mds.cluster$POP == "MKK")] <- "darkblue";
-```
 
-`pdf(file="mdsplot_`<span style="font-family:'consolas';color: red;background-color:rgb(220,220,220)">DATAFILE</span>`_QC2_outliersincluded.pdf",width=7,height=7)`
+pdf(file="mdsplot_DATAFILE_QC2_outliersincluded.pdf",width=7,height=7)`
 
-```r
 #Please note - the plot will directly be saved as a PDF in your current working directory under the above specified name
 #and does not appear in the PLOT window
 plot(rev(mds.cluster$C2), rev(mds.cluster$C1), col=rev(colors), ylab="Dimension 1", xlab="Dimension 2",pch=20)
 minor.tick(nx = 5, ny = 5,   # Ticks density
          tick.ratio = 0.5) # Ticks size
-```
-
-`legend("bottomleft", c("`<span style="font-family:'consolas';color: red;background-color:rgb(220,220,220)">DATASETNAME</span>`", "CEU", "CHB", "YRI", "TSI", "JPT", "CHD", "MEX", "GIH", "ASW","LWK", "MKK"), fill=c("red", "lightblue", "brown", "yellow", "green", "purple", "orange", "grey50", "black", "darkolivegreen", "magenta", "darkblue"))`
-
-```r
+legend("bottomleft", c("DATASETNAME", "CEU", "CHB", "YRI", "TSI", "JPT", "CHD", "MEX", "GIH", "ASW","LWK", "MKK"), fill=c("red", "lightblue", "brown", "yellow", "green", "purple", "orange", "grey50", "black", "darkolivegreen", "magenta", "darkblue"))`
 dev.off();
 #If you want to know the subject ID label of each sample on the graph, you can label your sample points by uncommenting the commands below.
 #This is optional and you can choose not to do this if you are worried about patient information being sent; when you send us your MDS plot please make sure the subject ID labels are NOT on the graph.
@@ -420,10 +406,10 @@ Your output will look something like this when viewed as a PDF file:
 
 > **Note:** The dotted lines indicate the cut-offs chosen for this specific data set, the dotted circle indicates the EU cluster. These details will not be part of your plot and are just included here to help you decide on an appropriate threshold in your sample.
 
-![MDS PLOT Outliers included](mdsplot_g1000_mix_QC2_outliersincluded.jpg){ width=70% }
+![MDS PLOT Outliers included](https://github.com/ENIGMA-git/ENIGMA_DTI_GWAS/blob/main/Pre%20Imputation%20Quality%20Control%20Protocol/mdsplot_g1000mix_QC2_outliersincluded.jpg?raw=true)
 
 Or in case of a more diverse data set the PDF might look like this:
-![MDS PLOT Outliers included](https://github.com/ENIGMA-git/ENIGMA_DTI_GWAS/blob/main/Pre%20Imputation%20Quality%20Control%20Protocol/mdsplot_ABCD_EUmix_QC2_outliersincluded.jpg?raw=true){ width=70% }
+![MDS PLOT Outliers included](https://github.com/ENIGMA-git/ENIGMA_DTI_GWAS/blob/main/Pre%20Imputation%20Quality%20Control%20Protocol/mdsplot_ABCD_EUmix_QC2_outliersincluded.jpg?raw=true)
 
 ### Identify Ancestry Outliers
 
