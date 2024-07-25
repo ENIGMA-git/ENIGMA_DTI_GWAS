@@ -385,7 +385,7 @@ colors[which(mds.cluster$POP == "ASW")] <- "darkolivegreen";
 colors[which(mds.cluster$POP == "LWK")] <- "magenta";
 colors[which(mds.cluster$POP == "MKK")] <- "darkblue";
 
-pdf(file="mdsplot_DATAFILE_QC2_outliersincluded.pdf",width=7,height=7)`
+pdf(file="mdsplot_DATASETNAME_QC2_outliersincluded.pdf",width=7,height=7)`
 
 #Please note - the plot will directly be saved as a PDF in your current working directory under the above specified name
 #and does not appear in the PLOT window
@@ -414,25 +414,19 @@ Or in case of a more diverse data set the PDF might look like this:
 ### Identify Ancestry Outliers
 
 For predominantly European ancestry cohorts, we now exclude individuals below cut-off thresholds. These thresholds are not fixed but will need to be determined based on the visualization/plot of the two dimensions you just created.
-Please have a good look at the two examples above - depending on your sample please change the cut-off threshold marked in <span style="color: red;">red</span> below.
+Please have a good look at the two examples above - depending on your sample please change the cut-off threshold in the code below.
 
 For predominantly other ancestry cohorts, the threshold should be determined according to the respective cohort cluster.
 
 ```r
 # First we grab your specific sample and create a column where you can mark outliers
-#--> change “DATASETNAME” to your sample specific cohort abbreviation
-```
-
-`MDS_mySample <- mds.cluster[which(mds.cluster$POP %in% c("`<span style="font-family:'consolas';color: red;background-color:rgb(220,220,220)">DATASETNAME</span>`")),]`
-
-```r
+#--> change “DATASETNAME” to your sample-specific cohort abbreviation
+MDS_mySample <- mds.cluster[which(mds.cluster$POP %in% c("`DATASETNAME")),]`
 MDS_mySample$outlier  <- 0
-
 # calculate outliers - first a threshold example for the g1000mix, a quite homogenous sample
+# NOTE: change the cut off below depending on YOUR sample 
+MDS_mySample$outlier[MDS_mySample$C1 < -0.01 | MDS_mySample$C2 > -0.05] <- 1
 ```
-
-`MDS_mySample$outlier[MDS_mySample$C1 < `<span style="font-family:'consolas';color: red;background-color:rgb(220,220,220)">-0.01</span>`| MDS_mySample$C2 > `<span style="font-family:'consolas';color: red;background-color:rgb(220,220,220)">-0.05</span>`] <- 1`
-
 > For the more diverse data set ABCD EU, as seen in the 2nd graph above, the threshold looks quite different, and will also result in a change of the '<' sign for the second PC! Please note, the line below does not have to be executed and is just included for illustrative purposes: `MDS_mySample$outlier[MDS_mySample$C1 < 0.04| MDS_mySample$C2 < 0.06] <- 1'`
 
 ```r
@@ -441,14 +435,9 @@ MDS_mySample_outliers<- MDS_mySample[which(MDS_mySample$outlier == 1),1:2]
 MDS_mySample_european<- MDS_mySample[which(MDS_mySample$outlier == 0 ),1:2]
 #For further plotting we also grab the full reference details again and combine them with the full EU information in your sample
 #First let's get the reference - we get everything not part of your dataset
-```
-
-`MDS_ref_eur <- mds.cluster[which "(!(mds.cluster$POP %in% "`<span style="font-family:'consolas';color: red;background-color:rgb(220,220,220)">DATASETNAME</span>`")),]`
-
-```r
+MDS_ref_eur <- mds.cluster[which "(!(mds.cluster$POP %in% "DATASETNAME")),]
 #combine this with all Europeans (or respective other ancestry cohort)
 MDS_mySample_eur_plus_ref <- rbind(MDS_ref_eur, mds.cluster[which (mds.cluster$IID %in% MDS_mySample_european$IID ),])
-
 # repeat the colours again for the updated dataframe and then plot - note again: plot is directly saved
 colors=rep("red",length(MDS_mySample_eur_plus_ref$C1));
 colors[which(MDS_mySample_eur_plus_ref$POP == "CEU")] <- "lightblue";
@@ -462,20 +451,15 @@ colors[which(MDS_mySample_eur_plus_ref$POP == "GIH")] <- "black";
 colors[which(MDS_mySample_eur_plus_ref$POP == "ASW")] <- "darkolivegreen";
 colors[which(MDS_mySample_eur_plus_ref$POP == "LWK")] <- "magenta";
 colors[which(MDS_mySample_eur_plus_ref$POP == "MKK")] <- "darkblue";
-```
 
-`pdf(file="mdsplot_`<span style="font-family:'consolas';color: red;background-color:rgb(220,220,220)">DATAFILE</span>`_QC2_outliersexcluded.pdf", width=7, height=7)`
-
-`plot(rev(MDS_mySample_eur_plus_ref$C2), rev(MDS_mySample_eur_plus_ref$C1), col=rev(colors), ylab="Dimension 1", xlab="Dimension 2", pch=20)`
-
-`legend("bottomleft", c(`<span style="font-family:'consolas';color: red;background-color:rgb(220,220,220)">"DATASETNAME"</span>`, "CEU", "CHB", "YRI", "TSI", "JPT", "CHD", "MEX", "GIH", "ASW","LWK",` `"MKK"), fill=c("red", "lightblue", "brown", "yellow", "green", "purple", "orange", "grey50", "black", "darkolivegreen", "magenta",` `"darkblue"))`
-
-```r
-# save files - don't forget to replace DATAFILE with your cohort specific abbreviation
+pdf(file="mdsplot_DATASETNAME_QC2_outliersExcluded.pdf.pdf", width=7, height=7)
+plot(rev(MDS_mySample_eur_plus_ref$C2), rev(MDS_mySample_eur_plus_ref$C1), col=rev(colors), ylab="Dimension 1", xlab="Dimension 2", pch=20)`
+legend("bottomleft", c("DATASETNAME", "CEU", "CHB", "YRI", "TSI", "JPT", "CHD", "MEX", "GIH", "ASW","LWK",` `"MKK"), fill=c("red", "lightblue", "brown", "yellow", "green", "purple", "orange", "grey50", "black", "darkolivegreen", "magenta",` `"darkblue"))
+# save files - don't forget to replace DATASETNAME with your cohort specific abbreviation
 #let's get the outliers in your sample
-write.table(MDS_mySample_outliers, "DATAFILE_pop_strat_mds.outlier.txt", sep="\t", quote=FALSE, row.names=FALSE)
+write.table(MDS_mySample_outliers, "DATASETNAME_pop_strat_mds.outlier.txt", sep="\t", quote=FALSE, row.names=FALSE)
 #let's get the europeans in your sample
-write.table(MDS_mySample_european, "DATAFILE_pop_strat_mds.eur.txt", sep="\t", quote=FALSE, row.names=FALSE)
+write.table(MDS_mySample_european, "DATASETNAME_pop_strat_mds.eur.txt", sep="\t", quote=FALSE, row.names=FALSE)
 # quit R
 q()
 ```
@@ -483,7 +467,7 @@ q()
 Your output will now have outliers removed that are not part of the European (or respective ancestry of your cohort) cluster:
 In case of the first included graph the output contains only the individuals from your sample within the dotted circle.
 
-![MDS PLOT Outliers excluded](mdsplot_g1000_mix_QC2_outliersexcluded.jpg){ width=70% }
+![MDS PLOT Outliers excluded](https://github.com/ENIGMA-git/ENIGMA_DTI_GWAS/blob/main/Pre%20Imputation%20Quality%20Control%20Protocol/mdsplot_g1000mix_QC2_outliersexcluded.jpg?raw=true)
 
 Back in the shell, we exclude outliers from your actual bfile and use this QC3 file for subsequent steps:
 
