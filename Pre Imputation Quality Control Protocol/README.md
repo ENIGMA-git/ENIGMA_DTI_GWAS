@@ -8,7 +8,7 @@
 
 # ENIGMA QC - Pre Imputation Protocol
 
-_Version 1.1 - April 16, 2024_
+_Version 1.1 - July 25, 2024_
 
 **Written by: Barbara Molz, Gabriëlla A. M. Blokland, Nina Roth Mota**
 
@@ -66,7 +66,7 @@ Please let us know if you run into problems along the way. Please address any qu
 
 ## Important Notes
 
-Before starting, please ensure that your genetic data is aligned with the GRCh37/b37/hg19 genome builds.
+Before starting, please ensure your genetic data aligns with the GRCh37/b37/hg19 genome builds.
 
 You should start this protocol using a dataset in a binary file format for PLINK1.9, that means, in a .bed/.bim/.fam format. For more information, visit: <https://www.cog-genomics.org/plink/1.9/input#bed>
 
@@ -81,7 +81,7 @@ awk '$6=1' < yourinput.fam > output.fam
 
 Please ensure that sex is also encoded in the .fam file (male=1 and female=2).
 
-**Very important** Please remove individuals that do not have DTI data available before running this protocol. You can do this by using the function --keep on plink1.9 and a list\* of individuals, so that your genetic data is restricted to only those with also available DTI data.
+**Very important** Please remove individuals who do not have DTI data available before running this protocol. You can do this by using the function --keep on plink1.9 and a list\* of individuals, so that your genetic data is restricted to only those with also available DTI data.
 
 > \*The list of individuals is a text file with family IDs (FID) in the first column and within-family IDs (IID) in the second column, one line per individual, which will remove all unlisted samples from the current dataset.
 > Example line of Plink code to exclude non-DTI imaging individuals:
@@ -108,9 +108,9 @@ We are working with the assumption that the ideal minimal final sample size of e
 # PRE IMPUTATION PIPELINE
 
 Paste the code lines below into a terminal window or shell script, substitute the correct values where text is highlighted in
-<span style="color: red;">red</span>
+<span style="color: red;">red</span>. (Rendering in red is only available in the HTML version, if you are unsure what to change, please use this version and not the GitHub readMe). 
 
-For this protocol we will assume that your working directory is:
+For this protocol, we will assume that your working directory is:
 
 ```bash
 $HOME/enigma/DTIgenetics/
@@ -129,7 +129,7 @@ cd $HOME/enigma/DTIgenetics/
 
 Let’s start by checking for sex-mismatch from the phenotypic and the genetic data.
 First, ensure sex (as entered into the phenotype database) is encoded in the .fam file (male=1 and female=2).
-From the directory where your dataset (i.e. your binary plink files = <span style="font-family:'consolas';color: red;">yourrawdata</span>.bim/.bed/.fam) is located, type the following commands in blue to perform a series of steps:
+From the directory where your dataset (i.e. your binary plink files = <span style="font-family:'consolas';color: red;">yourrawdata</span>.bim/.bed/.fam) is located, type the following commands to perform a series of steps:
 
 `export datafile=`<span style="font-family:'consolas';color: red;background-color:rgb(220,220,220)">yourrawdata</span>
 
@@ -173,14 +173,13 @@ As a rule of thumb, F estimates < 0.2 yield female calls, and F>0.8 yield male c
 plink --bfile ${datafile}_splitX --check-sex 0.2 0.8 --out ${datafile}_sexcheck
 ```
 
-Check the log file and the <span style="font-family:'consolas';color: red;">${datafile}\_sexcheck</span>
-file to identify if problems were detected. You can use the following command to select individuals with sex mismatch:
+Check the log file and the **${datafile}\_sexcheck** file to identify if problems were detected. You can use the following command to select individuals with sex mismatch:
 
 ```bash
 grep PROBLEM ${datafile}_sexcheck.sexcheck > sex.drop
 ```
 
-The next command just extracts some important information to be sent to us as general sanity check:
+The next command just extracts some important information to be sent to us as a general sanity check:
 
 ```bash
 wc -l sex.drop > ${datafile}_sexcheck_PROBLEM.txt
@@ -268,7 +267,7 @@ If you are not using bash please change to the bash shell to run the protocol by
 
 `bash`
 
-when you are finished to go back to your usual shell (if you weren’t already in bash) type:
+when you are finished, go back to your usual shell (if you weren’t already in bash) type:
 
 `exit`
 
@@ -293,7 +292,7 @@ Starting from the dataset generated in the previous QC step (i.e. **\${datafile}
 plink --bfile ${datafile}_QC2 --mind 1 --hwe 1e-6 --geno 0.05 --maf 0.01 --make-bed --out ${datafile}_QC2_filtered
 ```
 
-Unzip the **HM3_b37 genotypes**. Prepare the HM3_b37 and the raw genotype data by extracting only SNPs that are in common between the two genotype data sets - this avoids exhausting the system memory. We are also removing the strand ambiguous SNPs from the genotyped data set to avoid strand mismatch among these SNPs. Your genotype files should be filtered to remove markers which do not satisfy the quality control criteria above.
+Unzip the **HM3_b37 genotypes**. Prepare the HM3_b37 and the raw genotype data by extracting only SNPs that are in common between the two genotype data sets - this avoids exhausting the system memory. We are also removing the strand ambiguous SNPs from the genotyped data set to avoid strand mismatch among these SNPs. Your genotype files should be filtered to remove markers that do not satisfy the quality control criteria above.
 
 ```bash
 gunzip HM3_b37.*
@@ -346,7 +345,7 @@ awk 'BEGIN{OFS=","};{print $1, $2, $3, $4, $5, $6, $7}' >> ${datafile}_QC2_HM3b3
 
 From this point until the end of the section, you are working in the R statistical package. Type `R` to start R in unix and `q()` followed by `n` to close the R session after the plot has been created.
 
-Please change the <span style="font-family:'consolas';color: red">DATASETNAME</span> below to match cohort specific abbreviation of your sample (e.g. BIG) and <span style="font-family:'consolas';color: red">DATAFILE</span> with the full root name used before in the shell scripts
+Please change the **DATASETNAME** below to match cohort-specific abbreviation of your sample (e.g. BIG) and **DATAFILE** with the full root name used before in the shell scripts
 You can find out the actual name via `echo $datafile` in the shell and ensure you are running R from the same working directory as before (i.e. where the .csv file is located --> `$HOME/enigma/DTIgenetics/${datafile}_QC2_HM3b37mds2R.mds.csv`
 
 Now we start R by typing `R`
@@ -420,14 +419,14 @@ For predominantly other ancestry cohorts, the threshold should be determined acc
 
 ```r
 # First we grab your specific sample and create a column where you can mark outliers
-#--> change “DATASETNAME” to your sample-specific cohort abbreviation
+#--> Change “DATASETNAME” to your sample-specific cohort abbreviation
 MDS_mySample <- mds.cluster[which(mds.cluster$POP %in% c("`DATASETNAME")),]`
 MDS_mySample$outlier  <- 0
 # calculate outliers - first a threshold example for the g1000mix, a quite homogenous sample
-# NOTE: change the cut off below depending on YOUR sample 
+# NOTE: change the cut-off below depending on YOUR sample 
 MDS_mySample$outlier[MDS_mySample$C1 < -0.01 | MDS_mySample$C2 > -0.05] <- 1
 ```
-> For the more diverse data set ABCD EU, as seen in the 2nd graph above, the threshold looks quite different, and will also result in a change of the '<' sign for the second PC! Please note, the line below does not have to be executed and is just included for illustrative purposes: `MDS_mySample$outlier[MDS_mySample$C1 < 0.04| MDS_mySample$C2 < 0.06] <- 1'`
+> For the more diverse data set ABCD EU, as seen in the 2nd graph above, the threshold looks quite different, and will also result in a change of the '<' sign for the second PC! Please note, the line below does not have to be executed and is just included for illustrative purposes: `MDS_mySample$outlier[MDS_mySample$C1 < 0.04| MDS_mySample$C2 < 0.06] <- 1`
 
 ```r
 # sort sample specific outliers /Europeans, just grab the FID and IID column for later use
@@ -455,7 +454,7 @@ colors[which(MDS_mySample_eur_plus_ref$POP == "MKK")] <- "darkblue";
 pdf(file="mdsplot_DATASETNAME_QC2_outliersExcluded.pdf.pdf", width=7, height=7)
 plot(rev(MDS_mySample_eur_plus_ref$C2), rev(MDS_mySample_eur_plus_ref$C1), col=rev(colors), ylab="Dimension 1", xlab="Dimension 2", pch=20)`
 legend("bottomleft", c("DATASETNAME", "CEU", "CHB", "YRI", "TSI", "JPT", "CHD", "MEX", "GIH", "ASW","LWK",` `"MKK"), fill=c("red", "lightblue", "brown", "yellow", "green", "purple", "orange", "grey50", "black", "darkolivegreen", "magenta",` `"darkblue"))
-# save files - don't forget to replace DATASETNAME with your cohort specific abbreviation
+# save files - don't forget to replace DATASETNAME with your cohort-specific abbreviation
 #let's get the outliers in your sample
 write.table(MDS_mySample_outliers, "DATASETNAME_pop_strat_mds.outlier.txt", sep="\t", quote=FALSE, row.names=FALSE)
 #let's get the europeans in your sample
@@ -614,7 +613,7 @@ Please send the following information and files to The ENIGMA-DTI Genetics Suppo
 We will get back to you shortly with any questions or to give the go-ahead for the imputation.
 
 - All **Plink log** files generated during QC and MDS steps
-- From duplicated/relatedness we need created txt file:
+- From duplicated/relatedness we need  created .txt-files:
   - `${datafile}_QC1pruned_duplicates_count.txt`
   - `${datafile}_QC1pruned_relatedness_count.txt`
 - The `${datafile}_sexcheck_PROBLEM.txt` file
@@ -637,7 +636,7 @@ cp *.pdf *.log ${datafile}_QC1pruned_duplicates_count.txt ${datafile}_QC1pruned_
 The line below checks if the expected amount of files have been moved.
 If you ran the whole pipeline there should be **27 files** - **18 PLINK log files** and the **9 files** specified above.
 
-> **Note:** In case you skipped some steps, the number of log files will be less, depending on how many plink commands you skipped - change the number <span style="font-family:'courier new',monospace;color: red;">(==27)</span> accordingly.
+> **Note:** In case you skipped some steps, the number of log files will be less, depending on how many plink commands you skipped - change the number **(==27)** accordingly.
 > As a rule of thumb the number won’t be lower than 20 - if you have less files you are missing crucial files or skipped necessary steps.
 
 ```bash
