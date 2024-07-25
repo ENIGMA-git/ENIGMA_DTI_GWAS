@@ -423,7 +423,7 @@ Your output will look something like this when viewed as a PDF file:
 ![MDS PLOT Outliers included](mdsplot_g1000_mix_QC2_outliersincluded.jpg){ width=70% }
 
 Or in case of a more diverse data set the PDF might look like this:
-![MDS PLOT Outliers included](mdsplot_ABCD_EU_mix_TI_20220419_QC2_outliersincluded.jpg){ width=70% }
+![MDS PLOT Outliers included](https://github.com/ENIGMA-git/ENIGMA_DTI_GWAS/blob/main/Pre%20Imputation%20Quality%20Control%20Protocol/mdsplot_ABCD_EUmix_QC2_outliersincluded.jpg?raw=true){ width=70% }
 
 ### Identify Ancestry Outliers
 
