@@ -355,11 +355,11 @@ Now we start R by typing `R`
 ```r
 #In R
 library(calibrate)
-#If you don’t have calibrate package, install it using
+#If you don’t have the calibrate package, install it using
 #install.packages("calibrate")
-mds.cluster = read.csv("DATAFILE_QC2_HM3b37mds2R.mds.csv", header=T);`
+mds.cluster = read.csv("DATAFILE_QC2_HM3b37mds2R.mds.csv", header=T);
 #first we create an additional column holding the respective ancestry labels
-mds.cluster$POP=rep("DATASETNAME",length(mds.cluster$C1));`
+mds.cluster$POP=rep("DATASETNAME",length(mds.cluster$C1));
 mds.cluster$POP[which(mds.cluster$FID == "CEU")] <- "CEU";
 mds.cluster$POP[which(mds.cluster$FID == "CHB")] <- "CHB";
 mds.cluster$POP[which(mds.cluster$FID == "YRI")] <- "YRI";
@@ -386,18 +386,18 @@ colors[which(mds.cluster$POP == "ASW")] <- "darkolivegreen";
 colors[which(mds.cluster$POP == "LWK")] <- "magenta";
 colors[which(mds.cluster$POP == "MKK")] <- "darkblue";
 
-pdf(file="mdsplot_DATASETNAME_QC2_outliersincluded.pdf",width=7,height=7)`
+pdf(file="mdsplot_DATASETNAME_QC2_outliersincluded.pdf",width=7,height=7)
 
 #Please note - the plot will directly be saved as a PDF in your current working directory under the above specified name
 #and does not appear in the PLOT window
 plot(rev(mds.cluster$C2), rev(mds.cluster$C1), col=rev(colors), ylab="Dimension 1", xlab="Dimension 2",pch=20)
 minor.tick(nx = 5, ny = 5,   # Ticks density
          tick.ratio = 0.5) # Ticks size
-legend("bottomleft", c("DATASETNAME", "CEU", "CHB", "YRI", "TSI", "JPT", "CHD", "MEX", "GIH", "ASW","LWK", "MKK"), fill=c("red", "lightblue", "brown", "yellow", "green", "purple", "orange", "grey50", "black", "darkolivegreen", "magenta", "darkblue"))`
+legend("bottomleft", c("DATASETNAME", "CEU", "CHB", "YRI", "TSI", "JPT", "CHD", "MEX", "GIH", "ASW","LWK", "MKK"), fill=c("red", "lightblue", "brown", "yellow", "green", "purple", "orange", "grey50", "black", "darkolivegreen", "magenta", "darkblue"))
 dev.off();
 #If you want to know the subject ID label of each sample on the graph, you can label your sample points by uncommenting the commands below.
 #This is optional and you can choose not to do this if you are worried about patient information being sent; when you send us your MDS plot please make sure the subject ID labels are NOT on the graph.
-#POPlabels <- c("CEU", "CHB", "YRI", "TSI", "JPT", "CHD", "MEX", "GIH", "ASW","LWK", "MKK");
+#POPlabels <- c("CEU", "CHB", "YRI", "TSI", "JPT", "CHD", "MEX", "GIH", "ASW", "LWK", "MKK");
 #textxy(mds.cluster[which(!(mds.cluster$POP %in% POPlabels)), "C2"], mds.cluster[which(!(mds.cluster$POP %in% POPlabels)), "C1"], mds.cluster[which(!(mds.cluster$POP %in% POPlabels)), "IID"])
 ```
 
@@ -422,13 +422,13 @@ For predominantly other ancestry cohorts, the threshold should be determined acc
 ```r
 # First we grab your specific sample and create a column where you can mark outliers
 #--> Change “DATASETNAME” to your sample-specific cohort abbreviation
-MDS_mySample <- mds.cluster[which(mds.cluster$POP %in% c("`DATASETNAME")),]`
+MDS_mySample <- mds.cluster[which(mds.cluster$POP %in% c("`DATASETNAME")),]
 MDS_mySample$outlier  <- 0
 # calculate outliers - first a threshold example for the g1000mix, a quite homogenous sample
 # NOTE: change the cut-off below depending on YOUR sample 
 MDS_mySample$outlier[MDS_mySample$C1 < -0.01 | MDS_mySample$C2 > -0.05] <- 1
 ```
-> For the more diverse data set ABCD EU, as seen in the 2nd graph above, the threshold looks quite different, and will also result in a change of the '<' sign for the second PC! Please note, the line below does not have to be executed and is just included for illustrative purposes: `MDS_mySample$outlier[MDS_mySample$C1 < 0.04| MDS_mySample$C2 < 0.06] <- 1`
+> For the more diverse data set ABCD EU, as seen in the 2nd graph above, the threshold looks quite different, and will also result in a change of the '<' sign for the second PC! Please note, the line below does not have to be executed and is just included for illustrative purposes: `MDS_mySample$outlier[MDS_mySample$C1 < 0.04| MDS_mySample$C2 < 0.06] <- 1
 
 ```r
 # sort sample specific outliers /Europeans, just grab the FID and IID column for later use
@@ -444,7 +444,7 @@ colors=rep("red",length(MDS_mySample_eur_plus_ref$C1));
 colors[which(MDS_mySample_eur_plus_ref$POP == "CEU")] <- "lightblue";
 colors[which(MDS_mySample_eur_plus_ref$POP == "CHB")] <- "brown";
 colors[which(MDS_mySample_eur_plus_ref$POP == "YRI")] <- "yellow";
-colors[which(MDS_mySample_eur_plus_refr$POP == "TSI")] <- "green";
+colors[which(MDS_mySample_eur_plus_ref$POP == "TSI")] <- "green";
 colors[which(MDS_mySample_eur_plus_ref$POP == "JPT")] <- "purple";
 colors[which(MDS_mySample_eur_plus_ref$POP == "CHD")] <- "orange";
 colors[which(MDS_mySample_eur_plus_ref$POP == "MEX")] <- "grey50";
@@ -454,8 +454,8 @@ colors[which(MDS_mySample_eur_plus_ref$POP == "LWK")] <- "magenta";
 colors[which(MDS_mySample_eur_plus_ref$POP == "MKK")] <- "darkblue";
 
 pdf(file="mdsplot_DATASETNAME_QC2_outliersExcluded.pdf.pdf", width=7, height=7)
-plot(rev(MDS_mySample_eur_plus_ref$C2), rev(MDS_mySample_eur_plus_ref$C1), col=rev(colors), ylab="Dimension 1", xlab="Dimension 2", pch=20)`
-legend("bottomleft", c("DATASETNAME", "CEU", "CHB", "YRI", "TSI", "JPT", "CHD", "MEX", "GIH", "ASW","LWK",` `"MKK"), fill=c("red", "lightblue", "brown", "yellow", "green", "purple", "orange", "grey50", "black", "darkolivegreen", "magenta",` `"darkblue"))
+plot(rev(MDS_mySample_eur_plus_ref$C2), rev(MDS_mySample_eur_plus_ref$C1), col=rev(colors), ylab="Dimension 1", xlab="Dimension 2", pch=20)
+legend("bottomleft", c("DATASETNAME", "CEU", "CHB", "YRI", "TSI", "JPT", "CHD", "MEX", "GIH", "ASW","LWK", "MKK"), fill=c("red", "lightblue", "brown", "yellow", "green", "purple", "orange", "grey50", "black", "darkolivegreen", "magenta",` `"darkblue"))
 # save files - don't forget to replace DATASETNAME with your cohort-specific abbreviation
 #let's get the outliers in your sample
 write.table(MDS_mySample_outliers, "DATASETNAME_pop_strat_mds.outlier.txt", sep="\t", quote=FALSE, row.names=FALSE)
