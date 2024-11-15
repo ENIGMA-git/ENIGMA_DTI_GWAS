@@ -453,7 +453,7 @@ colors[which(MDS_mySample_eur_plus_ref$POP == "ASW")] <- "darkolivegreen";
 colors[which(MDS_mySample_eur_plus_ref$POP == "LWK")] <- "magenta";
 colors[which(MDS_mySample_eur_plus_ref$POP == "MKK")] <- "darkblue";
 
-pdf(file="mdsplot_DATASETNAME_QC2_outliersExcluded.pdf.pdf", width=7, height=7)
+pdf(file="mdsplot_DATASETNAME_QC2_outliersExcluded.pdf", width=7, height=7)
 plot(rev(MDS_mySample_eur_plus_ref$C2), rev(MDS_mySample_eur_plus_ref$C1), col=rev(colors), ylab="Dimension 1", xlab="Dimension 2", pch=20)
 legend("bottomleft", c("DATASETNAME", "CEU", "CHB", "YRI", "TSI", "JPT", "CHD", "MEX", "GIH", "ASW","LWK", "MKK"), fill=c("red", "lightblue", "brown", "yellow", "green", "purple", "orange", "grey50", "black", "darkolivegreen", "magenta",` `"darkblue"))
 # save files - don't forget to replace DATASETNAME with your cohort-specific abbreviation
