@@ -473,7 +473,7 @@ In case of the first included graph the output contains only the individuals fro
 Back in the shell, we exclude outliers from your actual bfile and use this QC3 file for subsequent steps:
 
 ```bash
-plink --bfile ${datafile}_QC2  --keep ${datafile}_pop_strat_mds.eur.txt --make-bed --out ${datafile}_QC3
+plink --bfile ${datafile}_QC2_filtered  --keep ${datafile}_pop_strat_mds.eur.txt --make-bed --out ${datafile}_QC3
 ```
 
 ## Get genetic principal components in ancestry homogenous group
